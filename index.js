@@ -1,19 +1,17 @@
 const express = require("express");
-const mongoose = require("mongoose");
+
 const cors = require("cors");
 const path = require("path");
+require("dotenv").config();
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
 
-const mongoURI ="mongodb+srv://daniyalamjadali:daniyalamjadali@cluster0.h4vtslk.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
- 
-mongoose
-  .connect(mongoURI)
-  .then(() => console.log("MongoDB connected"))
-  .catch((err) => console.log(err));
+const connectDB = require("./dbconnection");
+
+connectDB();
 
 const catalogRoutes = require("./routes/catalog");
 const productRoutes = require("./routes/product");
@@ -26,7 +24,13 @@ app.use('/users', usersRoutes);
 
 // // Serve static files from the 'uploadss' folder
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+console.log('www22333')
+const PORT = process.env.PORT;
 
-app.listen(3002, () => {
-  console.log("Server running on port 3001");
+app.listen(PORT, () => {
+  console.log('www22555')
+  console.log("Server is running on port " + PORT);
 });
+
+
+ // "start": "nodemon index.js"
